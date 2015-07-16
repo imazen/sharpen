@@ -27,7 +27,7 @@ Sharpen was originally created by db40 [svn source here](https://source.db4o.com
 ### Running sharpen
 
 1. `mvn install` should have created a file named `sharpencore-0.0.1-SNAPSHOT-jar-with-dependencies.jar`. This is a self-contained copy of sharpen that can be run anywhere.
-2. Run `java -jar sharpencore-0.0.1-SNAPSHOT-jar-with-dependencies.jar SOURCEPATH -cp JAR_DEPENDENCY_A JAR_DEPENDENCY_B`  
+2. Run `java -jar sharpencore-0.0.1-SNAPSHOT-jar-with-dependencies.jar SOURCEPATH -cp JAR_DEPENDENCY_A -cp JAR_DEPENDENCY_B`  
     Each dependecy needed by the java source should be specified as a full path to the jar file. SOURCEPATH should also be a full path.
 3. Run -help for syntax
 
