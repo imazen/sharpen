@@ -1,0 +1,9 @@
+public class For4 {
+	public static void main (String args[]) {
+	    int i;
+	    int n;
+		for (i = 0, n = 40; i < n; i++) {
+  			n *= 2;
+  		}
+	}
+}

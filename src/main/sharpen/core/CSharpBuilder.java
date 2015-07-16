@@ -2612,9 +2612,24 @@ public class CSharpBuilder extends ASTVisitor {
 	public boolean visit(final ForStatement node) {
 		consumeContinueLabel(new Function<CSBlock>() {
 			public CSBlock apply() {
-				ArrayList<CSExpression> initializers = new ArrayList<CSExpression> ();
+				ArrayList<CSExpression> initializers = new ArrayList<CSExpression>();
 				for (Object i : node.initializers()) {
-					initializers.add(mapExpression((Expression) i));
+					if (i instanceof VariableDeclarationExpression) {
+						VariableDeclarationExpression v = (VariableDeclarationExpression) i;
+						for (Object j : v.fragments()) {
+							VariableDeclarationFragment fragment = (VariableDeclarationFragment) j;
+							if (initializers.size() == 0) {
+								CSExpression c = mapFragement(fragment);
+								initializers.add(c);
+							} else {
+								CSInfixExpression csInfix = new CSInfixExpression("=", mapExpression(fragment.getName()), mapExpression(fragment.getInitializer()));
+								initializers.add(csInfix);
+							}
+						}
+					} else {
+						CSExpression c = mapExpression((Expression) i);
+						initializers.add(c);
+					}
 				}
 				CSForStatement stmt = new CSForStatement(node.getStartPosition(), mapExpression(node.getExpression()));
 				for (CSExpression i : initializers) {
@@ -3691,6 +3706,11 @@ public class CSharpBuilder extends ASTVisitor {
 	private String mappedFieldName(Name node) {
 		IVariableBinding binding = variableBinding(node);
 		return null == binding ? null : my(Mappings.class).mappedFieldName(binding);
+	}
+
+	protected CSExpression mapFragement(VariableDeclarationFragment v) {
+		pushExpression(new CSDeclarationExpression(createVariableDeclaration(v)));
+		return popExpression();
 	}
 
 	protected CSExpression mapExpression(Expression expression) {
