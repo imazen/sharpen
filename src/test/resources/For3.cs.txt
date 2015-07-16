@@ -1,0 +1,10 @@
+public class For3
+{
+	public static void Main(string[] args)
+	{
+		for (int i = 0, n = 40; i < n; i++)
+		{
+			n *= 2;
+		}
+	}
+}
